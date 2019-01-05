@@ -71,19 +71,22 @@ def camera(self):
     
     if file == 'camera':
         file = 0
+    #added the external webcam option
+    elif file == 'webcamera':
+        file = 1
     else:
         assert os.path.isfile(file), \
         'file {} does not exist'.format(file)
         
     camera = cv2.VideoCapture(file)
     
-    if file == 0:
+    if file == 0 or file == 1:
         self.say('Press [ESC] to quit demo')
         
     assert camera.isOpened(), \
     'Cannot capture source'
     
-    if file == 0:#camera window
+    if file == 0 or file == 1:#camera window
         cv2.namedWindow('', 0)
         _, frame = camera.read()
         height, width, _ = frame.shape
@@ -94,7 +97,7 @@ def camera(self):
 
     if SaveVideo:
         fourcc = cv2.VideoWriter_fourcc(*'XVID')
-        if file == 0:#camera window
+        if file == 0 or file == 1:#camera window
           fps = 1 / self._get_fps(frame)
           if fps < 1:
             fps = 1
